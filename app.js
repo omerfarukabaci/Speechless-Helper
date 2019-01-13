@@ -19,6 +19,8 @@ var makePassive = function(item){
     element.attr('class', 'card');
     element = item.getHeader();
     element.hide();
+        element = item.getImg();
+    element.css('opacity', '0.2');
 }
 
 var makeActive = function(item){
@@ -26,10 +28,14 @@ var makeActive = function(item){
     element.attr('class', 'card bg-secondary');
     element = item.getHeader();
     element.show('slow');
+    element = item.getImg();
+    element.css('opacity', '1');
 }
 
 var app = function(){
-    $("img").css('transition', '0.2s');
+    $("img").css({
+        'transition': '0.2s'
+    });
     $(".card-header").hide('slow');
     makeActive(item);
     var update = function(){
