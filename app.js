@@ -60,9 +60,10 @@ var app = function(){
             else if (e.keyCode == '37') { // left arrow
                 makePassive(item);
                 if(item["index"] == 0)
-                    item["item"] = itemSize - 1;
+                    item["index"] = itemSize - 1;   
                 else
                     item["index"] = item["index"] - 1;
+                console.log(item["index"]);
                 makeActive(item);
             }
             else if (e.keyCode == '39') { // right arrow
