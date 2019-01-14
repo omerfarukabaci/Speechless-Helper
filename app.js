@@ -1,43 +1,44 @@
 var categorySize = 3;
-var itemSize = 3;
+var itemSize = 6;
 var item = { 
     category: 0,
-    index: 0,
-    getCard : function() {
-        return $('.card').eq(item["index"] + 3*item["category"]);
+    index: 1,
+    getCard : function(index) {
+        return $('.card').eq(index + 3*item["category"]);
     },
-    getImg : function() {
-        return $("img").eq(item["index"] + 3*item["category"]);
-    },
-    getHeader: function() {
-        return $(".card-header").eq(item["index"] + 3*item["category"]);
+    getImg : function(index) {
+        return $("img").eq(index + 3*item["category"]);
     }
 };
 
-var makePassive = function(item){
-    var element = item.getCard();
+var makePassive = function(item, index){
+    var element = item.getCard(index);
     element.attr('class', 'card');
-    element = item.getHeader();
-    element.hide();
-        element = item.getImg();
-    element.css('opacity', '0.2');
+    element = item.getImg(index);
+    element.attr('src', 'img/' + ((item["category"] + 1) + '-' + (item["index"] + 1) + '.png'));
+    element.css({
+        'opacity': '0.2',
+        'transform': 'scale(0.8)'
+    });
+
 }
 
-var makeActive = function(item){
-    var element = item.getCard();
+var makeActive = function(item, index){
+    var element = item.getCard(index);
     element.attr('class', 'card bg-secondary');
-    element = item.getHeader();
-    element.show('slow');
-    element = item.getImg();
-    element.css('opacity', '1');
+    element = item.getImg(index);
+    element.attr('src', 'img/' + ((item["category"] + 1) + '-' + (item["index"] + 1) + '.png'));
+    element.css({
+        'opacity': '1',
+        'transform': 'scale(0.85)'
+    });
 }
 
 var app = function(){
-    $("img").css({
-        'transition': '0.2s'
-    });
-    $(".card-header").hide('slow');
-    makeActive(item);
+    $("img").css('transition', '0.5s');
+    $(".card").css('overflow-y', 'hidden');
+    makeActive(item, 1);
+
     var update = function(){
         document.onkeydown = checkKey;
         function checkKey(e) {
@@ -58,21 +59,31 @@ var app = function(){
                 makeActive(item);
             }
             else if (e.keyCode == '37') { // left arrow
-                makePassive(item);
+                makePassive(item, 2);
                 if(item["index"] == 0)
                     item["index"] = itemSize - 1;   
                 else
                     item["index"] = item["index"] - 1;
                 console.log(item["index"]);
-                makeActive(item);
+                makeActive(item, 1);
+                item["index"]--;
+                if(item["index"] < 0) item["index"] += itemSize;
+                makePassive(item, 0);
+                item["index"] = (item["index"] + 1) % itemSize;
             }
             else if (e.keyCode == '39') { // right arrow
-                makePassive(item);
+                makePassive(item, 0);
+                console.log(item["index"]);
                 item["index"] = (item["index"] + 1) % itemSize;
-                makeActive(item);
+                makeActive(item, 1);
+                console.log(item["index"]);
+                item["index"] = (item["index"] + 1) % itemSize;
+                makePassive(item, 2);
+                console.log(item["index"]);
+                item["index"]--;
+                if(item["index"] < 0) item["index"] += itemSize;
             }
         }
-
     };
     setInterval(update, 10);
 }
