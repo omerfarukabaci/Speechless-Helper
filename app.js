@@ -44,19 +44,29 @@ var app = function(){
         function checkKey(e) {
             e = e || window.event;
             if (e.keyCode == '38') { // up arrow
-                makePassive(item);
+                item["index"] = 0;
+                makePassive(item, 0);
+                item["index"] = 1;
+                makePassive(item, 1);
+                item["index"] = 2;
+                makePassive(item, 2);
                 if(item["category"] == 0)
                     item["category"] = categorySize - 1;
                 else
                     item["category"] = item["category"] - 1;
-                item["index"] = 0;
-                makeActive(item);
+                item["index"] = 1;
+                makeActive(item, 1);
             }
             else if (e.keyCode == '40') { // down arrow
-                makePassive(item);
-                item["category"] = (item["category"] + 1) % categorySize;
                 item["index"] = 0;
-                makeActive(item);
+                makePassive(item, 0);
+                item["index"] = 1;
+                makePassive(item, 1);
+                item["index"] = 2;
+                makePassive(item, 2);
+                item["category"] = (item["category"] + 1) % categorySize;
+                item["index"] = 1;
+                makeActive(item, 1);
             }
             else if (e.keyCode == '37') { // left arrow
                 makePassive(item, 2);
