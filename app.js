@@ -5,10 +5,10 @@ var item = {
     category: 0,
     index: 1,
     getCard : function(index) {
-        return $('.card').eq(index + categorySize*item["category"]);
+        return $('.card').eq(index + 3*item["category"]);
     },
     getImg : function(index) {
-        return $("img").eq(index + categorySize*item["category"]);
+        return $("img").eq(index + 3*item["category"]);
     }
 };
 
@@ -36,7 +36,6 @@ var makeActive = function(item, index){
 }
 
 var app = function(){
-    // $("img").css('transition', '0.5s');
     $(".card").css('overflow-y', 'hidden');
     makeActive(item, 1);
     var grow = true;
