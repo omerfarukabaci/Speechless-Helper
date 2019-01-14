@@ -1,5 +1,6 @@
 var categorySize = 3;
 var itemSize = 6;
+var scaleFactor = 0.8;
 var item = { 
     category: 0,
     index: 1,
@@ -35,11 +36,14 @@ var makeActive = function(item, index){
 }
 
 var app = function(){
-    $("img").css('transition', '0.5s');
+    // $("img").css('transition', '0.5s');
     $(".card").css('overflow-y', 'hidden');
     makeActive(item, 1);
-
+    var grow = true;
     var update = function(){
+        if(grow) scaleFactor += 0.007;
+        else     scaleFactor -= 0.007;
+        item.getImg(1).css('transform', 'scale(' + scaleFactor + ')');
         document.onkeydown = checkKey;
         function checkKey(e) {
             e = e || window.event;
@@ -94,8 +98,11 @@ var app = function(){
                 if(item["index"] < 0) item["index"] += itemSize;
             }
         }
+
+        if(scaleFactor >= 0.87) grow = false;
+        else if(scaleFactor <= 0.8) grow = true;
     };
-    setInterval(update, 10);
+    setInterval(update, 50);
 }
 
 window.onload = app;
