@@ -5,10 +5,10 @@ var item = {
     category: 0,
     index: 1,
     getCard : function(index) {
-        return $('.card').eq(index + 3*item["category"]);
+        return $('.card').eq(index + categorySize*item["category"]);
     },
     getImg : function(index) {
-        return $("img").eq(index + 3*item["category"]);
+        return $("img").eq(index + categorySize*item["category"]);
     }
 };
 
